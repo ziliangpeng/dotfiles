@@ -31,8 +31,8 @@ function ssha() { # log into a EC2 instance
   ssh $host".inst.aws.airbnb.com" -t $@
 }
 function sshz() { # configure and log into a EC2 instance
-  config_ec2 $host
-  ssha $host zsh
+  config_ec2 $1
+  ssha $1 zsh
 }
 function picka() { # pick a instance of role, configure, login
   sshz `inst $@`
