@@ -21,23 +21,24 @@ alias v='cd ~/airlab && vagrant up;  vagrant ssh'
 alias gdm='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
 
 # Login to data center
-function ssha() {
-  sid=$1
+function config_ec2() {
+  scp -o StrictHostKeyChecking=no $DOTFILES_PATH/zsh/minimal-zsh $1.inst.aws.airbnb.com:~/.zshrc
+}
+alias ssh='ssh -A -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0'
+function ssha() { # log into a EC2 instance
+  host=$1
   shift
-  ssh -A -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 $sid".inst.aws.airbnb.com" -t $*
+  ssh $host".inst.aws.airbnb.com" -t $@
 }
-
-function converge-log() {
-  ssha $1 tail -f /var/log/init.err
-}
-
-function picka() {
-  host=`inst $@`
+function sshz() { # configure and log into a EC2 instance
   config_ec2 $host
   ssha $host zsh
 }
+function picka() { # pick a instance of role, configure, login
+  sshz `inst $@`
+}
 alias pa=picka
 
-function config_ec2() {
-  scp -o StrictHostKeyChecking=no $DOTFILES_PATH/zsh/minimal-zsh $1.inst.aws.airbnb.com:~/.zshrc
+function converge-log() {
+  ssha $1 tail -f /var/log/init.err
 }
