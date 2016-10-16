@@ -8,3 +8,7 @@ xcode-select --install
 
 # Install Cask
 brew tap caskroom/cask
+
+brew update
+brew tap homebrew/bundle
+
