@@ -34,7 +34,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Prompts
 RPROMPT=$RPROMPT'$(battery_charge)'
-PROMPT='
-%{$fg[blue]$bg[grey]%}$(date) %{$reset_color%}
-'$PROMPT
+#PROMPT='
+#%{$fg[blue]$bg[grey]%}$(date) %{$reset_color%}
+#'$PROMPT
 
