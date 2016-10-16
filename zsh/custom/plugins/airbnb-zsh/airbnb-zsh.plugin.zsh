@@ -22,7 +22,7 @@ alias gdm='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | x
 
 # Login to data center
 function config_ec2() {
-  scp -o StrictHostKeyChecking=no $DOTFILES_PATH/zsh/minimal-zsh $1.inst.aws.airbnb.com:~/.zshrc
+  scp -o StrictHostKeyChecking=no $DOTFILES_PATH/bash/minimal-bashrc $1.inst.aws.airbnb.com:~/.bash_profile
 }
 alias ssh='ssh -A -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0'
 function ssha() { # log into a EC2 instance
@@ -30,12 +30,12 @@ function ssha() { # log into a EC2 instance
   shift
   ssh $host".inst.aws.airbnb.com" -t $@
 }
-function sshz() { # configure and log into a EC2 instance
+function ssht() { # configure and log into a EC2 instance
   config_ec2 $1
-  ssha $1 zsh
+  ssha $1 "tmux a -t $1|| tmux new -s $1"
 }
 function picka() { # pick a instance of role, configure, login
-  sshz `inst $@`
+  ssht `inst $@`
 }
 alias pa=picka
 
