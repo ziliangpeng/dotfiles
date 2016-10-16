@@ -31,6 +31,13 @@ function converge-log() {
   ssha $1 tail -f /var/log/init.err
 }
 
-function sshr() {
-  ssha `inst $@`
+function picka() {
+  host=`inst $@`
+  config_ec2 $host
+  ssha $host zsh
+}
+alias pa=picka
+
+function config_ec2() {
+  scp -o StrictHostKeyChecking=no $DOTFILES_PATH/zsh/minimal-zsh $1.inst.aws.airbnb.com:~/.zshrc
 }
