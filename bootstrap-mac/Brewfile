@@ -43,3 +43,4 @@ cask 'virtualbox'
 mas '1Password', id: 443987910
 mas 'Tweetbot', id: 557168941
 mas 'Things', id: 407951449
+mas 'Slack', id: 803453959
