@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Requires:
+## brew install jq
+# Examples:
+## List all billow boxes
+## $ inst billow all
+## List a random billow box
+## $ inst billow rand
+## Pick the default billow box (first)
+## $ inst billow
+## Pick the 2nd billow host
+## $ inst billow 2
+
+REQPARMS="$1"
+JQPARMS=".hostname"
+
+if [[ "all" == "$2" ]]; then
+	curl -sf "http://optica.d.musta.ch/?role=$REQPARMS" | jq -r ".nodes[] | $JQPARMS"
+elif [[ "rand" == "$2" ]]; then
+	COUNT=`curl -sf "http://optica.d.musta.ch/?role=$REQPARMS" | jq -r ".nodes[] | $JQPARMS" | wc -l`
+	PICK=$(( $RANDOM % $COUNT + 1))
+	curl -sf "http://optica.d.musta.ch/?role=$REQPARMS" | jq -r ".nodes[] | $JQPARMS" | head -n "$PICK" | tail -1
+else
+	PICK="$2"
+	if [[ -z "$PICK" ]]; then
+		PICK="1"
+	fi
+	curl -sf "http://optica.d.musta.ch/?role=$REQPARMS" | jq -r ".nodes[] | $JQPARMS" | head -n "$PICK" | tail -1
+fi
+
