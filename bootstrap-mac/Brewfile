@@ -11,6 +11,7 @@ brew 'jq'
 brew 'kubernetes-cli'
 brew 'libevent'
 brew 'libgit2'
+brew 'mas'
 brew 'mysql'
 brew 'node'
 brew 'openssl'
@@ -29,7 +30,6 @@ cask 'sublime-text'
 cask 'dropbox'
 cask 'google-drive'
 cask 'manico'
-cask 'things'
 cask 'fantastical'
 cask 'atom'
 cask 'alfred'
@@ -39,3 +39,7 @@ cask 'iterm2'
 cask 'squirrel'
 cask 'vagrant'
 cask 'virtualbox'
+
+mas '1Password', id: 443987910
+mas 'Tweetbot', id: 557168941
+mas 'Things', id: 407951449
