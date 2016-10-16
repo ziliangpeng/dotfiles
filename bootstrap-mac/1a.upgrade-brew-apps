@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export HOMEBREW_GITHUB_API_TOKEN="5dd952bed28f875f2a74ef53a440d35a561f8d08"
+brew update
+
+cat BREW_APPS | xargs -n 1 brew upgrade
+
+cat CASK_APPS | xargs -n 1 brew upgrade

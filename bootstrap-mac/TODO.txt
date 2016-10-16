@@ -1,0 +1,40 @@
+# Install a new Macbook Air
+
+1. Basic
+
+- change modifier: Caps lock => Control
+- tap to click
+- enable dragging
+- sign in App Store
+- install app store apps: things, 1 password, tweetbot, iawriter
+- How to get vault of 1password: link iCloud
+
+
+2. Install brew, and Cask
+
+./0.install-brew.sh
+
+3. Install apps
+
+./1.install-brew-apps.sh
+
+4. install sensitive or non-cask apps by hand
+
+- spectable
+
+5. Configurations
+
+  a) config git user.email, user.name
+  b) set up linked directories from GDrive/Dropbox
+  c) install oh-my-zsh
+  d) customize oh-my-zsh
+
+
+5. Misc
+
+- Authenticate iTunes Music
+- configue method http://rime.im/
+
+
+
+
