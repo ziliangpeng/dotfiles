@@ -26,15 +26,15 @@ if platform.system() == 'Darwin': # hack. make it only works on Mac.
 # Output
 
 # parameters
-    total_slots = 5
-    green_bar_level = 4
-    yellow_bar_level = 2
+    TOTAL_SLOTS = 3
+    GREEN_BAR_LEVEL = 2
+    YELLOW_BAR_LEVEL = 1
 
 # text construction
     LIGHTNING = u'\u26A1'
-    charged_bars = int(math.ceil(total_slots * charge))
+    charged_bars = int(math.ceil(TOTAL_SLOTS * charge))
     filled = charged_bars * u'▸'
-    empty = (total_slots - charged_bars) * u'▹'
+    empty = (TOTAL_SLOTS - charged_bars) * u'▹'
     out_text = filled + empty + (b_chg and LIGHTNING or ' ') + ('%02d' % (charge * 100))
     out = (out_text).encode('utf-8')
 
@@ -43,12 +43,10 @@ if platform.system() == 'Darwin': # hack. make it only works on Mac.
     color_red = '%{[31m%}'
     color_reset = '%{[00m%}'
     color_out = (
-        color_green if len(filled) >= green_bar_level
-        else color_yellow if len(filled) >= yellow_bar_level
+        color_green if len(filled) >= GREEN_BAR_LEVEL
+        else color_yellow if len(filled) >= YELLOW_BAR_LEVEL
         else color_red
     )
 
     out = color_out + out + color_reset
-
-
     sys.stdout.write(out)
