@@ -1,2 +1,5 @@
 # Vagrant files
 .vagrant
+
+# Vim
+*.swp
