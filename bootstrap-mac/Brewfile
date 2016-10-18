@@ -25,6 +25,7 @@ brew 'unrar'
 brew 'wget'
 brew 'youtube-dl'
 
+cask '1password'
 cask 'google-chrome'
 cask 'sublime-text'
 cask 'dropbox'
@@ -36,11 +37,10 @@ cask 'alfred'
 cask 'manico'
 cask 'daisydisk'
 cask 'iterm2'
+cask 'slack'
 cask 'squirrel'
+cask 'things'
 cask 'vagrant'
 cask 'virtualbox'
 
-mas '1Password', id: 443987910
 mas 'Tweetbot', id: 557168941
-mas 'Things', id: 407951449
-mas 'Slack', id: 803453959
