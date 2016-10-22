@@ -4,7 +4,7 @@
 
 PENG_HOME=~/.oh-my-zsh/custom/plugins/zpeng
 
-alias b='cd ..'
+alias b='last-ssh'
 alias c='clear'
 alias e='vim $PENG_HOME/zpeng.plugin.zsh'
 alias h='cd ~'
