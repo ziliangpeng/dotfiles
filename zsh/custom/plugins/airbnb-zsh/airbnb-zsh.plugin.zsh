@@ -36,7 +36,11 @@ function ssha() { # log into a EC2 instance
   ssh $host".inst.aws.airbnb.com" -t $@
 }
 function ssht() { # configure and log into a EC2 instance
-  config_ec2 $1
+  grep $1 $CONFIGED_HOSTNAMES &> /dev/null
+  if [[ $? -ne 0 ]]; then
+    config_ec2 $1
+    echo $1 >> $CONFIGED_HOSTNAMES
+  fi
   ssha $1 "tmux a -t $1|| tmux new -s $1"
 }
 function picka() { # pick a instance of role, configure, login
