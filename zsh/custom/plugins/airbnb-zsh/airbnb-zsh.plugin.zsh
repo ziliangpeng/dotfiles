@@ -50,6 +50,7 @@ alias pa=picka
 function last-ssh() {
   ssht `cat $LAST_HOSTNAME`
 }
+alias empty_cache_ec2="rm $CONFIGED_HOSTNAMES"
 
 # Other commands over ssh
 function converge-log() {
