@@ -30,3 +30,7 @@ goto() {
 # Editing/Reloading resource file
 alias reload='source ~/.zshrc'
 
+
+# Git
+alias gdc='git diff --cached'
+
