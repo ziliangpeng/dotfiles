@@ -34,3 +34,6 @@ alias reload='source ~/.zshrc'
 # Git
 alias gdc='git diff --cached'
 
+
+# Gradle
+alias grun='gradle clean;gradle build;gradle run'
