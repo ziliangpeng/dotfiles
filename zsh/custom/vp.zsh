@@ -36,4 +36,4 @@ alias gdc='git diff --cached'
 
 
 # Gradle
-alias grun='gradle clean;gradle build;gradle run -PuseLocalThrift="/usr/local/bin/thrift"'
+alias grun='gradle clean;gradle build -PuseLocalThrift="/usr/local/bin/thrift";gradle run -PuseLocalThrift="/usr/local/bin/thrift"'
