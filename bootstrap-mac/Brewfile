@@ -26,7 +26,7 @@ brew 'unrar'
 brew 'wget'
 brew 'youtube-dl'
 
-cask '1password'
+#cask '1password'
 cask 'alfred'
 cask 'atom'
 cask 'daisydisk'
