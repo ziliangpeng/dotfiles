@@ -40,3 +40,6 @@ alias grun='gradle clean;gradle build -PuseLocalThrift="/usr/local/bin/thrift";g
 
 # Handy tools
 alias greps='grep -rnw . -e'
+
+# compile thrift
+alias thriftc="./bootstrap.sh && ./configure LDFLAGS='-L/usr/local/opt/openssl/lib' CPPFLAGS='-I/usr/local/opt/openssl/include' --prefix=/usr/local PHP_PREFIX='/usr/local/Cellar/php55/5.5.38_11/lib/php' && make && sudo make install"
