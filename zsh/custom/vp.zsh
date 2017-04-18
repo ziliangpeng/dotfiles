@@ -37,9 +37,15 @@ alias gdc='git diff --cached'
 
 # Gradle
 alias grun='gradle clean;gradle build -PuseLocalThrift="/usr/local/bin/thrift";gradle run -PuseLocalThrift="/usr/local/bin/thrift"'
+alias ggc='gradle clean'
+alias ggb='gradle build'
+alias ggt='gradle teset'
+alias gdep='gradlew dependencies --configuration compile'
+alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
 
 # Handy tools
-alias greps='grep -rnw . -e'
+alias greps='grep -rn . -e'
+alias grepw='grep -rnw . -e'
 
 # compile thrift
 alias thriftc="./bootstrap.sh && ./configure LDFLAGS='-L/usr/local/opt/openssl/lib' CPPFLAGS='-I/usr/local/opt/openssl/include' --prefix=/usr/local PHP_PREFIX='/usr/local/Cellar/php55/5.5.38_11/lib/php' && make && sudo make install"
