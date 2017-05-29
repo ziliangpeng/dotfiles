@@ -1,3 +1,7 @@
 . "$ZDOTDIR/prezto/init.zsh"
 . "$ZDOTDIR/custom/vp.zsh"
 . "$ZDOTDIR/custom/mac.zsh"
+
+# Load the z tool from oh-my-zsh
+# Note: The tool itself can be found at https://github.com/rupa/z
+. $ZDOTDIR/oh-my-zsh/plugins/z/z.sh
