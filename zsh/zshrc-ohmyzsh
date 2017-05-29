@@ -3,6 +3,7 @@ export ZSH=$ZDOTDIR/oh-my-zsh
 
 # Use another custom folder than $ZSH/custom
 export ZSH_CUSTOM=$ZDOTDIR/custom
+export ZSH_COMPDUMP=$HOME/.zcompdump
 
 # Set name of the theme to load.
 # Optionally, if you set this to "random", it'll load a random theme each
