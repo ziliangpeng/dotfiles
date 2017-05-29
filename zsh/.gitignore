@@ -1,5 +1,4 @@
 # Compdump file
 .zcompdump*
 
-# example files
-*.example
+zsh-selected
