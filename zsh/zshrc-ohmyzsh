@@ -1,9 +1,8 @@
 # Path to your oh-my-zsh installation.
-export DOTFILES_ZSH_PATH=$HOME/dotfiles/zsh
-export ZSH=$DOTFILES_ZSH_PATH/oh-my-zsh
+export ZSH=$ZDOTDIR/oh-my-zsh
 
 # Use another custom folder than $ZSH/custom
-export ZSH_CUSTOM=$DOTFILES_ZSH_PATH/custom
+export ZSH_CUSTOM=$ZDOTDIR/custom
 
 # Set name of the theme to load.
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -36,4 +35,3 @@ source $ZSH/oh-my-zsh.sh
 RPROMPT=$RPROMPT'$(battery)'
 PROMPT='%{$fg[blue]$bg[grey]%}$(date) %{$reset_color%}
 '$PROMPT
-

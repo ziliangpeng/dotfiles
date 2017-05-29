@@ -1,4 +1,3 @@
-export ZDOTDIR=$HOME/dotfiles/zsh
 . "$ZDOTDIR/prezto/init.zsh"
 . "$ZDOTDIR/custom/vp.zsh"
 . "$ZDOTDIR/custom/mac.zsh"
