@@ -5,6 +5,7 @@ alias b='last-ssh'
 alias c='clear'
 alias h='cd ~'
 alias hs='history'
+alias l='ls -la'
 alias p='python'
 alias s='python -m SimpleHTTPServer 8008'
 alias x='exit'
@@ -32,7 +33,11 @@ alias reload='source ~/.zshrc'
 
 
 # Git
-alias gdc='git diff --cached'
+alias ga='git add'
+alias gd='git diff'
+alias gdc='gd --cached'
+alias gst='gws'
+
 
 
 # Gradle
