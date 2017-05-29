@@ -37,6 +37,7 @@ alias ga='git add'
 alias gd='git diff'
 alias gdc='gd --cached'
 alias gst='gws'
+alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_format}"'
 
 
 
