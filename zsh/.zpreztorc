@@ -1,1 +1,2 @@
-zstyle ':prezto:load' pmodule 'environment' 'terminal' 'git'
+zstyle ':prezto:load' pmodule 'environment' 'terminal' 'git' 'prompt'
+zstyle ':prezto:module:prompt' theme 'minimal'
