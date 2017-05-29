@@ -2,6 +2,9 @@ export ZDOTDIR=$HOME/dotfiles/zsh
 . $ZDOTDIR/zsh-selected
 . $ZDOTDIR/zshrc-$ZSH_SELECTED
 
+# let Prezto point to the default history file (as oh-my-zsh)
+HISTFILE=$HOME/.zsh_history
+
 # Temporary hack in airship13 to make rails work
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
