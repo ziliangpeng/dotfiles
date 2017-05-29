@@ -1,2 +1,0 @@
-# value can be 'ohmyzsh' or 'prezto'
-export ZSH_SELECTED=prezto
