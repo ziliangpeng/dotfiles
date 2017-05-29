@@ -2,6 +2,9 @@ export ZDOTDIR=$HOME/dotfiles/zsh
 . $ZDOTDIR/zsh-selected
 . $ZDOTDIR/zshrc-$ZSH_SELECTED
 
+# Temporary hack in airship13 to make rails work
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
 # Enable iTerm's Timestamp by default
 if [ $TERM_PROGRAM = "iTerm.app" ]; then
   osascript -e 'tell application "System Events" to keystroke "e" using {command down, shift down}'
