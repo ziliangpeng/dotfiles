@@ -17,8 +17,6 @@ alias airedit='vim $AIRPATH/airbnb-zsh.plugin.zsh'
 alias rekey='goldkey'
 alias v='cd ~/airlab && vagrant up;  vagrant ssh'
 
-# dev tool
-alias gdm='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
 
 # Login to data center
 function config_ec2() {

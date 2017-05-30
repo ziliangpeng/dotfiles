@@ -42,10 +42,10 @@ zstyle -s ':prezto:module:git:log:brief' format '_git_log_brief_format' \
 alias ga='git add'
 alias gaa='git add --all'
 alias gd='git diff'
+alias gdm='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
 alias gdc='gd --cached'
 alias gst='git status --short'
 alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_format}"'
-
 
 
 # Gradle
