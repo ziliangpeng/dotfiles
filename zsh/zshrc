@@ -2,6 +2,8 @@ export ZDOTDIR=$HOME/dotfiles/zsh
 . $ZDOTDIR/zsh-selected
 . $ZDOTDIR/zshrc-$ZSH_SELECTED
 
+export PATH=$PATH:$ZDOTDIR/bin
+
 # let Prezto point to the default history file (as oh-my-zsh)
 HISTFILE=$HOME/.zsh_history
 
