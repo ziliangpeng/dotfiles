@@ -49,12 +49,11 @@ alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_
 
 
 # Gradle
-alias grun='gradle clean;gradle build -PuseLocalThrift="/usr/local/bin/thrift";gradle run -PuseLocalThrift="/usr/local/bin/thrift"'
-alias ggc='gradle clean'
-alias ggb='gradle build'
-alias ggt='gradle teset'
+alias ggc='gradlew clean'
+alias ggb='gradlew build'
 alias gdep='gradlew dependencies --configuration compile'
 alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
+alias gcb='gradlew clean; gradlew build;
 
 # Handy tools
 alias greps='grep -rn . -e'
