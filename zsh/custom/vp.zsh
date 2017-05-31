@@ -53,7 +53,7 @@ alias ggc='gradlew clean'
 alias ggb='gradlew build'
 alias gdep='gradlew dependencies --configuration compile'
 alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
-alias gcb='gradlew clean; gradlew build;
+alias gcb='gradlew clean; gradlew build;'
 
 # Handy tools
 alias greps='grep -rn . -e'
