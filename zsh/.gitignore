@@ -1,4 +1,8 @@
 # Compdump file
 .zcompdump*
 
+# Choose which zsh tool to use
 zsh-selected
+
+# local file, not supposed to commit
+local.zsh
