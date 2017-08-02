@@ -34,6 +34,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Prompts
 #RPROMPT=$RPROMPT'$(battery)'
-RPROMPT='$(git_prompt_info)'
+RPROMPT='`git diff --quiet || echo '🌈'` $(git_prompt_info)'
 #PROMPT='%{$fg[blue]$bg[grey]%}$(date) %{$reset_color%}
 #'$PROMPT
