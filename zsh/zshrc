@@ -15,6 +15,6 @@ HISTFILE=$HOME/.zsh_history
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # Enable iTerm's Timestamp by default
-if [ $TERM_PROGRAM = "iTerm.app" ]; then
-  osascript -e 'tell application "System Events" to keystroke "e" using {command down, shift down}'
-fi
+#if [ $TERM_PROGRAM = "iTerm.app" ]; then
+#  osascript -e 'tell application "System Events" to keystroke "e" using {command down, shift down}'
+#fi
