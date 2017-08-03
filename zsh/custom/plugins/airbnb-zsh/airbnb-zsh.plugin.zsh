@@ -14,7 +14,6 @@ export PATH=$PATH:/opt/airbnb/bin
 
 
 alias airedit='vim $AIRPATH/airbnb-zsh.plugin.zsh'
-alias rekey='goldkey'
 alias v='cd ~/airlab && vagrant up;  vagrant ssh'
 
 
