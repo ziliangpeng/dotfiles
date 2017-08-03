@@ -1,2 +1,2 @@
-# value can be 'ohmyzsh' or 'prezto'
+# value can be 'ohmyzsh', 'prezto' or 'minimal'
 export ZSH_SELECTED=ohmyzsh
