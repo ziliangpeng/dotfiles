@@ -12,7 +12,7 @@ export PATH=$PATH:$ZDOTDIR/bin
 HISTFILE=$HOME/.zsh_history
 
 # Temporary hack in airship13 to make rails work
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # Enable iTerm's Timestamp by default
 #if [ $TERM_PROGRAM = "iTerm.app" ]; then
