@@ -55,6 +55,7 @@ alias vb='vim build.gradle'
 # Gradle
 alias ggc='gradlew clean'
 alias ggb='gradlew build'
+alias ggs='gradlew spotlessApply'
 alias gdep='gradlew dependencies --configuration compile'
 alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
 alias gcb='gradlew clean; gradlew build;'
