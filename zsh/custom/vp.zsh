@@ -7,6 +7,7 @@ alias h='cd ~'
 alias hs='history'
 alias l='ls -laG'
 alias p='python'
+alias p3='python3'
 alias s='python -m SimpleHTTPServer 8008'
 alias x='exit'
 
