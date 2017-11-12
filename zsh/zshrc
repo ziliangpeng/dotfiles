@@ -9,7 +9,7 @@ fi
 export PATH=$PATH:$ZDOTDIR/bin
 
 # for pyenv
-#export PATH="/Users/victor_peng/.pyenv:$PATH"
+export PATH="/Users/victor_peng/.pyenv:$PATH"
 eval "$(pyenv init -)"
 
 # let Prezto point to the default history file (as oh-my-zsh)
