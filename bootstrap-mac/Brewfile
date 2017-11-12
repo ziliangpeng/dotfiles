@@ -3,6 +3,7 @@ cask_args appdir: '/Applications'
 tap 'caskroom/cask'
 
 brew 'ack'
+brew 'bazel'
 brew 'coreutils'
 brew 'fabric'
 brew 'git'
