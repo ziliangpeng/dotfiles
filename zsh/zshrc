@@ -8,13 +8,26 @@ fi
 
 export PATH=$PATH:$ZDOTDIR/bin
 
+# for pyenv
+#export PATH="/Users/victor_peng/.pyenv:$PATH"
+eval "$(pyenv init -)"
+
 # let Prezto point to the default history file (as oh-my-zsh)
 HISTFILE=$HOME/.zsh_history
 
 # Temporary hack in airship13 to make rails work
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # Enable iTerm's Timestamp by default
 #if [ $TERM_PROGRAM = "iTerm.app" ]; then
 #  osascript -e 'tell application "System Events" to keystroke "e" using {command down, shift down}'
 #fi
+
+# AIRLAB-DO-NOT-MODIFY section:ShellWrapper {{{
+# Airlab will only make edits inside these delimiters.
+
+# Source Airlab's shell integration, if it exists.
+if [ -e ~/.airlab/shellhelper.sh ]; then
+  source ~/.airlab/shellhelper.sh
+fi
+# AIRLAB-DO-NOT-MODIFY section:ShellWrapper }}}
