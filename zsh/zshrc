@@ -31,3 +31,8 @@ if [ -e ~/.airlab/shellhelper.sh ]; then
   source ~/.airlab/shellhelper.sh
 fi
 # AIRLAB-DO-NOT-MODIFY section:ShellWrapper }}}
+
+# for enabling pyenv on every new shell
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
