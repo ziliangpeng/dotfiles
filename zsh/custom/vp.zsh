@@ -49,6 +49,7 @@ alias gst='git status --short'
 alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_format}"'
 alias sync-master='git pull --rebase origin master'
 alias gmas='gco master'
+alias gprod='gco production'
 alias gagc='ga .;gc -m'
 alias vb='vim build.gradle'
 
