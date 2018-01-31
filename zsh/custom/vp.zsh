@@ -15,6 +15,12 @@ alias fp='df -H | grep "/dev/"'
 alias size='du -hcs'
 alias search='find . -type f|xargs grep'
 
+alias try="docker run -it --rm $@"
+
+
+# naoshima scripts
+alias loc='~/naoshima/loc.sh'
+
 #alias vm='ssh zpeng@u'
 
 BMK_PATH=/tmp
