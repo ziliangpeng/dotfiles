@@ -1,9 +1,11 @@
 #!/bin/bash
 
 cd ~
-echo "Installing oh-my-zsh... -----------------------"
+
+# no need to pull oh-my-zsh
+#echo "Installing oh-my-zsh... -----------------------"
 # Step-by-step install
-git clone git://github.com/robbyrussell/oh-my-zsh.git ~/oh-my-zsh #conflict if repo already pulled
+#git clone git://github.com/robbyrussell/oh-my-zsh.git ~/oh-my-zsh #conflict if repo already pulled
 
 echo "Setting up .zshrc -----------------------------"
 rm ~/.zshrc
