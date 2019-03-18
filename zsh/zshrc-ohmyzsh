@@ -1,8 +1,8 @@
 # Path to your oh-my-zsh installation.
-export ZSH=$ZDOTDIR/oh-my-zsh
+export ZSH=$ZDOTFILESDIR/oh-my-zsh
 
 # Use another custom folder than $ZSH/custom
-export ZSH_CUSTOM=$ZDOTDIR/custom
+export ZSH_CUSTOM=$ZDOTFILESDIR/custom
 export ZSH_COMPDUMP=$HOME/.zcompdump
 
 # Set name of the theme to load.
