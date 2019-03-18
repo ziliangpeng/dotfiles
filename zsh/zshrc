@@ -1,12 +1,12 @@
-export ZDOTDIR=$HOME/dotfiles/zsh
-. $ZDOTDIR/zsh-selected
-. $ZDOTDIR/zshrc-$ZSH_SELECTED
+export ZDOTFILESDIR=$HOME/dotfiles/zsh
+. $ZDOTFILESDIR/zsh-selected
+. $ZDOTFILESDIR/zshrc-$ZSH_SELECTED
 
-if [[ -e "$ZDOTDIR/local.zsh" ]]; then
-  . $ZDOTDIR/local.zsh
+if [[ -e "$ZDOTFILESDIR/local.zsh" ]]; then
+  . $ZDOTFILESDIR/local.zsh
 fi
 
-export PATH=$PATH:$ZDOTDIR/bin
+export PATH=$PATH:$ZDOTFILESDIR/bin
 
 # for pyenv
 export PATH="/Users/vctor_peng/.pyenv:$PATH"  # for macOS
