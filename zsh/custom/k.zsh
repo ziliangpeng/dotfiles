@@ -11,5 +11,3 @@ alias kinfo="k cluster-info"
 func knodes() { k get nodes | grep "$1" }
 func kpods() { k get pods | grep "$1" }
 alias kdpod="kd pod"
-
-alias gc="gcloud"
