@@ -56,6 +56,7 @@ alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_
 alias sync-master='git pull --rebase origin master'
 alias sync-develop='git pull --rebase origin develop'
 alias gmas='gco master'
+alias gdev='gco develop'
 alias gprod='gco production'
 alias gagc='ga .;gc -m'
 alias vb='vim build.gradle'
