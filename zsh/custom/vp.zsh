@@ -56,19 +56,24 @@ alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_brief_
 alias sync-master='git pull --rebase origin master'
 alias sync-develop='git pull --rebase origin develop'
 alias gmas='gco master'
-alias gprod='gco production'
+alias gdev='gco develop'
+#alias gprod='gco production'
 alias gagc='ga .;gc -m'
-alias vb='vim build.gradle'
+#alias vb='vim build.gradle'
+
+func gnew() {
+  gco -b v--$1
+}
 
 
 # Gradle
-alias ggc='gradlew clean'
-alias ggb='gradlew build'
-alias ggt='gradlew test'
-alias ggs='gradlew spotlessApply'
-alias gdep='gradlew dependencies --configuration compile'
-alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
-alias gcb='gradlew clean; gradlew build;'
+#alias ggc='gradlew clean'
+#alias ggb='gradlew build'
+#alias ggt='gradlew test'
+#alias ggs='gradlew spotlessApply'
+#alias gdep='gradlew dependencies --configuration compile'
+#alias gdepdw10='gradlew dependencies --configuration compileWithDW10'
+#alias gcb='gradlew clean; gradlew build;'
 
 # Handy tools
 alias greps='grep -rn . -e'
