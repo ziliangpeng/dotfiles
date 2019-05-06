@@ -8,6 +8,7 @@ fi
 
 export PATH=$PATH:$ZDOTFILESDIR/bin
 export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/.local/bin
 
 # for pyenv
 export PATH="/Users/vctor_peng/.pyenv:$PATH"  # for macOS
