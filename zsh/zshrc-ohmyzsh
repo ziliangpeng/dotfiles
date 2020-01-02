@@ -13,7 +13,7 @@ ZSH_THEME="alanpeabody"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z docker docker-compose)
+plugins=(git docker docker-compose globalias)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -34,6 +34,11 @@ source $ZSH/oh-my-zsh.sh
 
 # Prompts
 #RPROMPT=$RPROMPT'$(battery)'
-RPROMPT='`git diff --quiet 2>/dev/null|| echo '🌈'` $(git_prompt_info)'
+#RPROMPT='`git diff --quiet 2>/dev/null|| echo '🔨'` $(git_prompt_info)'
+PROMPT='
+%{$bg[blue]%}%{$fg[black]%}`date`%{$reset_color%} `git diff --quiet 2>/dev/null|| echo '🔨'` $(git_prompt_info)
+'$PROMPT
+RPROMPT=''
+#RPROMPT='$(git_prompt_info)'
 #PROMPT='%{$fg[blue]$bg[grey]%}$(date) %{$reset_color%}
 #'$PROMPT

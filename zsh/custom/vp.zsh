@@ -60,6 +60,7 @@ alias gdev='gco develop'
 #alias gprod='gco production'
 alias gagc='ga .;gc -m'
 #alias vb='vim build.gradle'
+alias gdbase="git diff `git merge-base HEAD develop`"
 
 func gnew() {
   gco -b v--$1

@@ -13,29 +13,17 @@ export PATH=$PATH:$HOME/.local/bin
 # for pyenv
 export PATH="/Users/vctor_peng/.pyenv:$PATH"  # for macOS
 export PATH="/home/zpeng/.pyenv/bin:$PATH"  # for ubuntu
-eval "$(pyenv init -)"
+#eval "$(pyenv init -)"
 
 # let Prezto point to the default history file (as oh-my-zsh)
 HISTFILE=$HOME/.zsh_history
 
 # Temporary hack in airship13 to make rails work
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-
-# Enable iTerm's Timestamp by default
-#if [ $TERM_PROGRAM = "iTerm.app" ]; then
-#  osascript -e 'tell application "System Events" to keystroke "e" using {command down, shift down}'
-#fi
-
-# AIRLAB-DO-NOT-MODIFY section:ShellWrapper {{{
-# Airlab will only make edits inside these delimiters.
-
-# Source Airlab's shell integration, if it exists.
-if [ -e ~/.airlab/shellhelper.sh ]; then
-  source ~/.airlab/shellhelper.sh
-fi
-# AIRLAB-DO-NOT-MODIFY section:ShellWrapper }}}
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # for enabling pyenv on every new shell
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+export GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
+export DOGSTATSD_HOST=10.0.90.42
