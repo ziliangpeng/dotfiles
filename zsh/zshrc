@@ -25,6 +25,7 @@ HISTFILE=$HOME/.zsh_history
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
-export GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
+#export GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
 export DOGSTATSD_HOST=10.0.90.42
 
+export SIGNALFX_CREDENTIALS=/var/secrets/signalfx/key.json
