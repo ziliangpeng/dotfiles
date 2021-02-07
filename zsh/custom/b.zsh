@@ -3,6 +3,7 @@
 
 # Basic Bazel shortcuts
 alias bb="bazel build -c opt --config=cuda "
+alias bba="bazel build -c opt --config=cuda --features asan "
 alias br="bazel run -c opt --config=cuda "
 alias bbt="bazel build --config tegra"
 alias bt="time (b&&t)"
@@ -17,7 +18,7 @@ alias tgcs="./bazel-bin/base/file/gcs_file_system_test"
 alias btgcs="bgcs && USE_GCS_FILESYSTEM=true tgcs"
 
 alias bs3="bb base/file:s3_file_system_test"
-alias ts3="S3_STAT_CACHE_MAX_AGE=0 TF_CPP_MIN_LOG_LEVEL=3 AWS_REGION=us-west-1 ./bazel-bin/base/file/s3_file_system_test"
+alias ts3="S3_STAT_CACHE_MAX_AGE=0 TF_CPP_MIN_LOG_LEVEL=6 AWS_REGION=us-west-1 ./bazel-bin/base/file/s3_file_system_test"
 alias bts3="bs3 && ts3"
 
 alias bnfs="bb base/file:nfs_client_test"
@@ -49,8 +50,9 @@ alias bhub="bb simulation/pacman/hub:agent_hub_server_main"
 
 
 # ML Builds
-alias bddag="bb learning/mhtc/data/scripts/airflow:delete_dag"
-alias rddag="bazel-bin/learning/mhtc/data/scripts/airflow/delete_dag"
+alias bddag="bb learning/airflow/tools:delete_dag"
+alias rddag="bazel-bin/learning/airflow/tools/delete_dag"
+alias rddagbroken="bazel-bin/learning/airflow/tools/delete_dag --remove_file_only "
 alias bml="bb learning/nuroflow/utils/k8s_run"
 
 alias rmhtctrainocal="rm -rf /tmp/local-mh-train/ && ./bazel-bin/learning/deepnets/tensorflow/trajectory/trainer --model=mh_pvc --model_id=prod  --data_uri=/mnt/mlstorage/mldata/predictor/data/airflow-auto-run/tf_record_train_eval_20191218011851  --model_dir=/tmp/local-mh-train"
@@ -67,21 +69,37 @@ alias rmbp="./bazel-bin/mapping/context_map_builder/map_builder --use_plasticbox
 
 ##### Nuro SIMTESTS ##### 
 
-func simtest() {
+func simtest-jobname-category() {
   bazel-bin/servers/borg/batch_simulation --job_name=$1  --email=ziliang --commit=`githead` --cloud  --categories=$2
 }
-func nsimtest() {
+func simtest4-jobname-category() {
+  bazel-bin/servers/borg/batch_simulation --job_name=$1  --extra_job_dict 'resource_multiplier:4' --email=ziliang --commit=`githead` --cloud  --categories=$2
+}
+func simtest-nufs-jobname-category() {
+  #bazel-bin/servers/borg/batch_simulation --job_name=$1  --extra_job_dict 'use_nufs:true' --email=ziliang --commit=`githead` --cloud  --categories=$2
+  bazel-bin/servers/borg/batch_simulation --job_name=$1  --extra_job_dict 'nufs_ttl:48' --email=ziliang --commit=`githead` --cloud  --categories=$2
+}
+func simtest4-nufs-jobname-category() {
+  bazel-bin/servers/borg/batch_simulation --job_name=$1  --extra_job_dict 'nufs_ttl:48,resource_multiplier:4' --email=ziliang --commit=`githead` --cloud  --categories=$2
+}
+func simtest2-nufs-jobname-category() {
+  bazel-bin/servers/borg/batch_simulation --job_name=$1  --extra_job_dict 'nufs_ttl:48,resource_multiplier:2' --email=ziliang --commit=`githead` --cloud  --categories=$2
+}
+func simtest-n-delay-jobname-category() {
   for i in $(seq 1 $1);
   do
-    bazel-bin/servers/borg/batch_simulation --job_name=$2-$i  --email=ziliang  --nouse_cache --commit=`githead` --cloud  --categories=$3
-    sleep 30
+    bazel-bin/servers/borg/batch_simulation --job_name=$3-$i  --email=ziliang --commit=`githead` --cloud  --categories=$4
+    sleep $2
   done
+}
+func simtest-n-jobname-category() {
+  simtest-n-delay-jobname-category $1 30 $2 $3
 }
 func simtestgcs() {
   bazel-bin/servers/borg/batch_simulation --extra_job_dict=use_gcs_api:true --job_name=gcs-$1  --email=ziliang  --nouse_cache --commit=`githead` --cloud  --categories=$2
 }
 func simtestfuse() {
-  bazel-bin/servers/borg/batch_simulation --extra_job_dict=use_gcsfuse:true --job_name=gcsfuse-$1  --email=ziliang  --nouse_cache --commit=`githead` --cloud  --categories=$2
+  bazel-bin/servers/borg/batch_simulation --extra_job_dict=use_gcsfuse:true --job_name=gcsfuse-$1  --email=ziiang  --nouse_cache --commit=`githead` --cloud  --categories=$2
 }
 func simtestlocal() {
   bazel-bin/servers/borg/batch_simulation --job_name=$1  --email=v  --commit=`githead` --local --categories=$2
@@ -94,7 +112,8 @@ func simtestdefault() {
 }
 
 
-alias f="precommit/format.py"
+#alias f="precommit/format.py && tools/lint/run_lint --fix"
+alias f='tools/lint/run_lint --fix'
 alias fexp="yapf -r --in-place experimental/zpeng"
 
 alias ctidy='tools/clang_tidy/clang_tidy.py'
