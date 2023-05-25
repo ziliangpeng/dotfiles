@@ -1,8 +1,16 @@
 # brew "pyenv"
 brew "tmux"
 brew "wget"
+brew "ffmpeg"
 cask "google-chrome"
 cask "iterm2"
 cask "iina"
 cask "caffeine"
+cask "spectacle"
+cask "manico"
+cask "dropbox"
+cask "visual-studio-code"
+cask "notion"
 
+# What NOT to install
+# cask "google-drive" # this doesn't work.
