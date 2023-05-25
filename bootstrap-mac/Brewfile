@@ -1,0 +1,8 @@
+# brew "pyenv"
+brew "tmux"
+brew "wget"
+cask "google-chrome"
+cask "iterm2"
+cask "iina"
+cask "caffeine"
+
