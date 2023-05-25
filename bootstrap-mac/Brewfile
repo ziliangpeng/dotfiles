@@ -1,4 +1,4 @@
-# brew "pyenv"
+brew "pyenv"
 brew "tmux"
 brew "wget"
 brew "ffmpeg"
@@ -11,6 +11,7 @@ cask "manico"
 cask "dropbox"
 cask "visual-studio-code"
 cask "notion"
+cask "miniconda"
 
 # What NOT to install
 # cask "google-drive" # this doesn't work.
