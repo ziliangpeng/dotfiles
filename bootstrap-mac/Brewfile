@@ -12,6 +12,7 @@ cask "dropbox"
 cask "visual-studio-code"
 cask "notion"
 cask "miniconda"
+cask "squirrel"
 
 # What NOT to install
 # cask "google-drive" # this doesn't work.

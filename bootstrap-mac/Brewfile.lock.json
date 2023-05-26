@@ -238,6 +238,12 @@
         "options": {
           "full_name": "miniconda"
         }
+      },
+      "squirrel": {
+        "version": "0.16.2",
+        "options": {
+          "full_name": "squirrel"
+        }
       }
     }
   },
