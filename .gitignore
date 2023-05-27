@@ -6,3 +6,5 @@
 
 # WIP files
 *.wip
+
+.DS_Store
