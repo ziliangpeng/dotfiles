@@ -2,6 +2,7 @@ brew "pyenv"
 brew "tmux"
 brew "wget"
 brew "ffmpeg"
+brew "imagemagick"
 cask "google-chrome"
 cask "iterm2"
 cask "iina"
@@ -13,6 +14,7 @@ cask "visual-studio-code"
 cask "notion"
 cask "miniconda"
 cask "squirrel"
+cask "wechat"
 
 # What NOT to install
 # cask "google-drive" # this doesn't work.
