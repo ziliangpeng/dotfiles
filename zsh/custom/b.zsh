@@ -13,7 +13,7 @@ alias bt="time (b&&t)"
 alias btf="bb base/file:tf_file_system"
 alias ttf="./bazel-bin/base/file/tf_file_system"
 
-alias bgcs="bazel build -c opt --config=cuda base/file:gcs_file_system_test"
+alias bgcs="bazel build -c opt --config=cuda base/file/filesystem:gcs_file_system_test"
 alias tgcs="./bazel-bin/base/file/gcs_file_system_test"
 alias btgcs="bgcs && USE_GCS_FILESYSTEM=true tgcs"
 
