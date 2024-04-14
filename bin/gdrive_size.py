@@ -11,7 +11,8 @@ SCOPES = ["https://www.googleapis.com/auth/drive.metadata.readonly"]
 
 GDRIVE_SIZE_APP_CLIENT_SECRETS_ENV = "GDRIVE_SIZE_CLIENT_SECRETS"
 
-GDRIVE_USER_CREDS_PATH = "/tmp/zpeng.gdrive.user.creds.json"
+GDRIVE_USER_CREDS_DIR = os.path.expanduser("~/.gdrive")
+GDRIVE_USER_CREDS_PATH = GDRIVE_USER_CREDS_DIR + '/' + "zpeng.gdrive.user.creds.json"
 
 
 def get_service():
@@ -22,14 +23,22 @@ def get_service():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
+    if not os.path.exists(GDRIVE_USER_CREDS_DIR):
+        os.mkdir(GDRIVE_USER_CREDS_DIR)
     if os.path.exists(GDRIVE_USER_CREDS_PATH):
         with open(GDRIVE_USER_CREDS_PATH, "rb") as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
+        refresh_ok = False
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
+            try:
+                creds.refresh(Request())
+                refresh_ok = True
+            except Exception as e:
+                print(e)
+
+        if not refresh_ok:
             flow = InstalledAppFlow.from_client_secrets_file(
                 os.environ[GDRIVE_SIZE_APP_CLIENT_SECRETS_ENV], SCOPES
             )

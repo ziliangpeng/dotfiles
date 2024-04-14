@@ -19,7 +19,7 @@ alias try="docker run -it --rm $@"
 
 
 # naoshima scripts
-alias loc='~/naoshima/loc.sh'
+alias loc='~/code/naoshima/loc.sh'
 
 #alias vm='ssh zpeng@u'
 

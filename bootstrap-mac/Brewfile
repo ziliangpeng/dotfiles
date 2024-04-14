@@ -15,6 +15,7 @@ cask "notion"
 cask "miniconda"
 cask "squirrel"
 cask "wechat"
+cask "atom"
 
 # What NOT to install
 # cask "google-drive" # this doesn't work.
