@@ -19,7 +19,6 @@ plugins=(git docker globalias)
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 export DISABLE_AUTO_UPDATE="true"
@@ -34,11 +33,11 @@ source $ZSH/oh-my-zsh.sh
 
 # Prompts
 function py_date_ms() {
-  python3 -c "from datetime import datetime; print(int(datetime.now().timestamp() * 1000))"
+    python3 -c "from datetime import datetime; print(int(datetime.now().timestamp() * 1000))"
 }
 # Function to record start time before each prompt
 function record_start_time() {
-  PROMPT_START_TIME=$(py_date_ms)
+    PROMPT_START_TIME=$(py_date_ms)
 }
 # Add the function to precmd_functions to run before each prompt
 precmd_functions+=(record_start_time)
@@ -47,4 +46,3 @@ PROMPT='
 '$PROMPT
 # Calculate execution time in RPROMPT
 RPROMPT='$(( $(py_date_ms) - $PROMPT_START_TIME ))ms'
-
