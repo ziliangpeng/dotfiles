@@ -29,14 +29,39 @@ source $ZSH/oh-my-zsh.sh
 function py_date_ms() {
     python3 -c "from datetime import datetime; print(int(datetime.now().timestamp() * 1000))"
 }
+
+# Variables to store timing information
+typeset -g COMMAND_START_TIME
+typeset -g LAST_COMMAND_TIME
+
+# Function to record start time before each command
+function record_command_start() {
+    COMMAND_START_TIME=$(py_date_ms)
+}
+
+# Function to calculate command execution time
+function calculate_command_time() {
+    if [ -n "$COMMAND_START_TIME" ]; then
+        LAST_COMMAND_TIME=$(( $(py_date_ms) - COMMAND_START_TIME ))
+        unset COMMAND_START_TIME
+    else
+        # Reset LAST_COMMAND_TIME if no command was run
+        unset LAST_COMMAND_TIME
+    fi
+}
+
 # Function to record start time before each prompt
 function record_start_time() {
     PROMPT_START_TIME=$(py_date_ms)
 }
-# Add the function to precmd_functions to run before each prompt
-precmd_functions+=(record_start_time)
+
+# Add the functions to hooks
+preexec_functions+=(record_command_start)
+precmd_functions+=(calculate_command_time record_start_time)
+
 PROMPT='
 %{$bg[blue]%}%{$fg[black]%}'$(date)'%{$reset_color%} $(git_current_branch)
 '$PROMPT
-# Calculate execution time in RPROMPT
-RPROMPT='$(( $(py_date_ms) - $PROMPT_START_TIME ))ms'
+
+# Calculate prompt generation time in RPROMPT
+RPROMPT='$(( $(py_date_ms) - $PROMPT_START_TIME ))ms${LAST_COMMAND_TIME:+/${LAST_COMMAND_TIME}ms$'\n'}'
