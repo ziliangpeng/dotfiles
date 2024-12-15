@@ -1,0 +1,1 @@
+alias br="bazel run"
