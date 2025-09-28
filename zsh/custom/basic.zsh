@@ -8,6 +8,11 @@ export PATH="$PATH:$HOME/dotfiles/bin"
 
 # =============================================================================
 # Basic Shell Aliases
+
+# Override Oh My Zsh grep with only relevant exclusions
+# Use a function instead of alias for cleaner expansion
+unalias grep 2>/dev/null || true
+grep() { command grep --color=auto --exclude-dir=.git --exclude-dir=.venv --exclude-dir=venv "$@"; }
 # =============================================================================
 alias c='clear'
 alias h='cd ~'
