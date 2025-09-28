@@ -1,4 +1,4 @@
-export PATH=$PATH:$ZSH_CUSTOM/bin
+export PATH="$PATH:$HOME/dotfiles/bin/macos"
 
 # Bluetooth/WiFi On/Off
 alias boff='blueutil off'
