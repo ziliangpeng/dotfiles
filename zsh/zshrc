@@ -40,14 +40,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ziliangpeng/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ziliangpeng/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ziliangpeng/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ziliangpeng/google-cloud-sdk/completion.zsh.inc'; fi
-
 export NAOSHIMA=~/code/naoshima
 
-# Modular
-export MODULAR_HOME="$HOME/.modular"
-export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/victor.peng/code/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/victor.peng/code/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/victor.peng/code/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/victor.peng/code/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
