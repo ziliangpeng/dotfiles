@@ -1,1 +1,0 @@
-alias br="bazel run"

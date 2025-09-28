@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo "nuking $1"
-
-curl -X DELETE "https://optica.d.musta.ch/$1"
-echo ""
