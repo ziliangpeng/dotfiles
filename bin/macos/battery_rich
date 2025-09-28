@@ -11,15 +11,15 @@ import sys
 
 if platform.system() == 'Darwin': # hack. make it only works on Mac.
     p = subprocess.Popen(["ioreg", "-rc", "AppleSmartBattery"], stdout=subprocess.PIPE)
-    output = p.communicate()[0]
+    output = p.communicate()[0].decode('utf-8')
 
-    o_max = [l for l in output.splitlines() if 'MaxCapacity' in l][0]
-    o_cur = [l for l in output.splitlines() if 'CurrentCapacity' in l][0]
-    o_chg = [l for l in output.splitlines() if 'ExternalConnected' in l][0]
+    o_max = [l for l in output.splitlines() if '"MaxCapacity" =' in l][0]
+    o_cur = [l for l in output.splitlines() if '"CurrentCapacity" =' in l][0]
+    o_chg = [l for l in output.splitlines() if '"ExternalConnected" =' in l][0]
 
-    b_max = float(o_max.rpartition('=')[-1].strip())
-    b_cur = float(o_cur.rpartition('=')[-1].strip())
-    b_chg = o_chg.rpartition('=')[-1].strip() == 'Yes'
+    b_max = float(o_max.split('=')[-1].strip())
+    b_cur = float(o_cur.split('=')[-1].strip())
+    b_chg = o_chg.split('=')[-1].strip() == 'Yes'
 
     charge = b_cur / b_max
 
@@ -36,7 +36,6 @@ if platform.system() == 'Darwin': # hack. make it only works on Mac.
     filled = charged_bars * u'▸'
     empty = (TOTAL_SLOTS - charged_bars) * u'▹'
     out_text = filled + empty + (b_chg and LIGHTNING or ' ') + ('%02d' % (charge * 100))
-    out = (out_text).encode('utf-8')
 
     color_green = '%{[32m%}'
     color_yellow = '%{[1;33m%}'
@@ -48,5 +47,5 @@ if platform.system() == 'Darwin': # hack. make it only works on Mac.
         else color_red
     )
 
-    out = color_out + out + color_reset
+    out = color_out + out_text + color_reset
     sys.stdout.write(out)
