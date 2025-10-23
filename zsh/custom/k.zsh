@@ -11,6 +11,7 @@ func ku() { kc use-context "$@" }
 
 # Resource operations
 alias kg="k get"
+alias kgd="k get deploy"
 alias kd="k describe"
 alias kdl="k delete"
 alias ktail="k logs -f"
