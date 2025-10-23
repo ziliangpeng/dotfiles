@@ -50,3 +50,4 @@ if [ -f '/Users/victor.peng/code/google-cloud-sdk/path.zsh.inc' ]; then . '/User
 if [ -f '/Users/victor.peng/code/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/victor.peng/code/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 export PATH="$HOME/bin:$PATH"
+alias iclouddrive='cd "~/Library/Mobile Documents/com~apple~CloudDocs"'
