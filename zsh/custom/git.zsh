@@ -25,6 +25,7 @@ alias gdm='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | x
 alias gdbase="git diff `git merge-base HEAD develop`"
 alias sync-master='git pull --rebase origin master'
 alias sync-develop='git pull --rebase origin develop'
+alias sync-main='git pull --rebase origin main'
 alias gmas='gco master'
 alias gdev='gco develop'
 alias gagc='ga .;gc -m'
