@@ -246,3 +246,16 @@ if pgrep -q "Comet"; then
         printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
     fi
 fi
+
+# Active application tracking
+# NOTE: Sending gauge with changing tags - unclear if DataDog will properly track
+# time-series distribution across different app tags or just keep last value.
+# The gauge value is always 1, but the app tag changes to indicate which app is active.
+active_app=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
+if [ -n "$active_app" ]; then
+    # Sanitize app name for tag (replace spaces and special chars with underscores)
+    app_tag=$(echo "$active_app" | tr ' :/' '_')
+    metric="macos.app.active:1"
+    echo "$metric (app:$app_tag)"
+    printf "%s|g|#host:%s,app:%s\n" "$metric" "$HOST" "$app_tag" | nc -u -w1 localhost 8125
+fi
