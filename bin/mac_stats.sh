@@ -227,3 +227,22 @@ headphones_count=$(echo "$connected_devices" | grep -c "Minor Type: Headphones")
 metric="macos.bluetooth.connected_headphones:$headphones_count"
 echo "$metric"
 printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+# Comet browser metrics (only if running)
+if pgrep -q "Comet"; then
+    # Comet tab count
+    tab_count=$(osascript -e 'tell application "Comet" to count every tab of every window' 2>/dev/null)
+    if [ -n "$tab_count" ]; then
+        metric="macos.comet.tab_count:$tab_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # Comet window count
+    window_count=$(osascript -e 'tell application "Comet" to count every window' 2>/dev/null)
+    if [ -n "$window_count" ]; then
+        metric="macos.comet.window_count:$window_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
