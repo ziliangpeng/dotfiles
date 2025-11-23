@@ -320,3 +320,14 @@ if [ -n "$active_app" ]; then
     echo "$metric (app:$app_tag)"
     printf "%s|c|#host:%s,app:%s\n" "$metric" "$HOST" "$app_tag" | nc -u -w1 localhost 8125
 fi
+
+# Keystroke counter
+# Reads the total keystroke count from the keystroke_counter daemon
+if [ -f /tmp/keystroke_count.txt ]; then
+    keystroke_count=$(cat /tmp/keystroke_count.txt)
+    if [ -n "$keystroke_count" ]; then
+        metric="macos.keystrokes.total:$keystroke_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
