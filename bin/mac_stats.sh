@@ -129,3 +129,43 @@ printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
 metric="macos.system.uptime_seconds:$(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',' | xargs -I {} bash -c 'echo $(($(date +%s) - {}))')"
 echo "$metric"
 printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+# WiFi stats - Get WiFi information for connected network
+wifi_info=$(system_profiler SPAirPortDataType 2>/dev/null | awk '/Status: Connected/,/Other Local Wi-Fi Networks:/' | grep -v "Other Local Wi-Fi Networks:")
+
+# Only collect WiFi stats if connected
+if [ -n "$wifi_info" ]; then
+    # Extract signal and noise (format: "Signal / Noise: -65 dBm / -89 dBm")
+    signal=$(echo "$wifi_info" | grep "Signal / Noise:" | head -1 | awk '{print $4}')
+    noise=$(echo "$wifi_info" | grep "Signal / Noise:" | head -1 | awk '{print $7}')
+
+    # WiFi signal strength
+    if [ -n "$signal" ]; then
+        metric="macos.wifi.signal_strength:$signal"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # WiFi noise level
+    if [ -n "$noise" ]; then
+        metric="macos.wifi.noise_level:$noise"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # WiFi transmit rate (Mbps)
+    transmit_rate=$(echo "$wifi_info" | grep "Transmit Rate:" | head -1 | awk '{print $3}')
+    if [ -n "$transmit_rate" ]; then
+        metric="macos.wifi.transmit_rate:$transmit_rate"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # WiFi channel number
+    channel=$(echo "$wifi_info" | grep "Channel:" | head -1 | awk '{print $2}')
+    if [ -n "$channel" ]; then
+        metric="macos.wifi.channel:$channel"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
