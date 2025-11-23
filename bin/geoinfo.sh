@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Source local zsh configuration for environment variables
+if [ -f /Users/victor.peng/dotfiles/zsh/local.zsh ]; then
+    source /Users/victor.peng/dotfiles/zsh/local.zsh
+fi
+
 PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 HOST=$(hostname -s)
 
@@ -88,6 +93,42 @@ if [ -n "$sunset_raw" ] && [ "$sunset_raw" != "" ]; then
     if [ -n "$sunrise_hour" ]; then
         day_length=$(echo "$sunset_hour - $sunrise_hour" | bc)
         metric="macos.geo.day_length:$day_length"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Air Quality Metrics (via WAQI API)
+# Get location-based air quality data
+# Expects WAQI_TOKEN environment variable to be set
+if [ -z "$WAQI_TOKEN" ]; then
+    echo "Error: WAQI_TOKEN environment variable is not set" >&2
+    exit 1
+fi
+
+aqi_data=$(curl -s "https://api.waqi.info/feed/here/?token=${WAQI_TOKEN}" 2>/dev/null)
+
+if [ -n "$aqi_data" ] && [ "$aqi_data" != "" ]; then
+    # Parse AQI value
+    aqi=$(echo "$aqi_data" | grep -o '"aqi":[0-9]\+' | cut -d':' -f2)
+    if [ -n "$aqi" ] && [ "$aqi" != "" ]; then
+        metric="macos.geo.aqi:$aqi"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # Parse PM2.5
+    pm25=$(echo "$aqi_data" | grep -o '"pm25":{"v":[0-9.]\+' | grep -o '[0-9.]\+$')
+    if [ -n "$pm25" ] && [ "$pm25" != "" ]; then
+        metric="macos.geo.pm25:$pm25"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # Parse Ozone (O3)
+    o3=$(echo "$aqi_data" | grep -o '"o3":{"v":[0-9.]\+' | grep -o '[0-9.]\+$')
+    if [ -n "$o3" ] && [ "$o3" != "" ]; then
+        metric="macos.geo.ozone:$o3"
         echo "$metric"
         printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
     fi
