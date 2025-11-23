@@ -211,10 +211,10 @@ if [ -n "$ppp3_case" ]; then
 fi
 
 # PPP2 AirPods battery levels
-ppp2_section=$(echo "$bt_info" | awk '/PPP2:/,/Services:/')
-ppp2_left=$(echo "$ppp2_section" | grep "Left Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
-ppp2_right=$(echo "$ppp2_section" | grep "Right Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
-ppp2_case=$(echo "$ppp2_section" | grep "Case Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+ppp2_section=$(echo "$bt_info" | awk '/PPP2:/,/PPP3:/')
+ppp2_left=$(echo "$ppp2_section" | grep "Left Battery Level:" | awk '{print $4}' | tr -d '%')
+ppp2_right=$(echo "$ppp2_section" | grep "Right Battery Level:" | awk '{print $4}' | tr -d '%')
+ppp2_case=$(echo "$ppp2_section" | grep "Case Battery Level:" | awk '{print $4}' | tr -d '%')
 
 if [ -n "$ppp2_left" ]; then
     metric="macos.bluetooth.ppp2_battery_left:$ppp2_left"
