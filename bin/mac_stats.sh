@@ -210,6 +210,30 @@ if [ -n "$ppp3_case" ]; then
     printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
 fi
 
+# PPP2 AirPods battery levels
+ppp2_section=$(echo "$bt_info" | awk '/PPP2:/,/Services:/')
+ppp2_left=$(echo "$ppp2_section" | grep "Left Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+ppp2_right=$(echo "$ppp2_section" | grep "Right Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+ppp2_case=$(echo "$ppp2_section" | grep "Case Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+
+if [ -n "$ppp2_left" ]; then
+    metric="macos.bluetooth.ppp2_battery_left:$ppp2_left"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
+if [ -n "$ppp2_right" ]; then
+    metric="macos.bluetooth.ppp2_battery_right:$ppp2_right"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
+if [ -n "$ppp2_case" ]; then
+    metric="macos.bluetooth.ppp2_battery_case:$ppp2_case"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
 # Connected device types
 connected_devices=$(echo "$bt_info" | awk '/Connected:/,/Not Connected:/ {print}')
 
