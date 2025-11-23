@@ -247,6 +247,25 @@ if pgrep -q "Comet"; then
     fi
 fi
 
+# ChatGPT Atlas browser metrics (only if running)
+if pgrep -q "ChatGPT Atlas"; then
+    # ChatGPT Atlas tab count
+    tab_count=$(osascript -e 'tell application "ChatGPT Atlas" to count every tab of every window' 2>/dev/null)
+    if [ -n "$tab_count" ]; then
+        metric="macos.chatgpt_atlas.tab_count:$tab_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # ChatGPT Atlas window count
+    window_count=$(osascript -e 'tell application "ChatGPT Atlas" to count every window' 2>/dev/null)
+    if [ -n "$window_count" ]; then
+        metric="macos.chatgpt_atlas.window_count:$window_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
 # Active application tracking
 # NOTE: Sending gauge with changing tags - unclear if DataDog will properly track
 # time-series distribution across different app tags or just keep last value.
