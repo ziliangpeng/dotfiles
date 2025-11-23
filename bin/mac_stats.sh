@@ -169,3 +169,61 @@ if [ -n "$wifi_info" ]; then
         printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
     fi
 fi
+
+# Bluetooth stats
+bt_info=$(system_profiler SPBluetoothDataType 2>/dev/null)
+
+# Bluetooth connected device count
+connected_count=$(echo "$bt_info" | awk '/Connected:/,/Not Connected:/ {if (/Minor Type:/) count++} END {print count+0}')
+metric="macos.bluetooth.connected_count:$connected_count"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+# Bluetooth paired device count
+paired_count=$(echo "$bt_info" | grep -c "Address:")
+paired_count=$((paired_count - 1))
+metric="macos.bluetooth.paired_count:$paired_count"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+# PPP3 AirPods battery levels
+ppp3_section=$(echo "$bt_info" | awk '/PPP3:/,/Services:/')
+ppp3_left=$(echo "$ppp3_section" | grep "Left Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+ppp3_right=$(echo "$ppp3_section" | grep "Right Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+ppp3_case=$(echo "$ppp3_section" | grep "Case Battery Level:" | tail -1 | awk '{print $4}' | tr -d '%')
+
+if [ -n "$ppp3_left" ]; then
+    metric="macos.bluetooth.ppp3_battery_left:$ppp3_left"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
+if [ -n "$ppp3_right" ]; then
+    metric="macos.bluetooth.ppp3_battery_right:$ppp3_right"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
+if [ -n "$ppp3_case" ]; then
+    metric="macos.bluetooth.ppp3_battery_case:$ppp3_case"
+    echo "$metric"
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+fi
+
+# Connected device types
+connected_devices=$(echo "$bt_info" | awk '/Connected:/,/Not Connected:/ {print}')
+
+mice_count=$(echo "$connected_devices" | grep -c "Minor Type: Mouse")
+metric="macos.bluetooth.connected_mice:$mice_count"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+keyboards_count=$(echo "$connected_devices" | grep -c "Minor Type: Keyboard")
+metric="macos.bluetooth.connected_keyboards:$keyboards_count"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
+headphones_count=$(echo "$connected_devices" | grep -c "Minor Type: Headphones")
+metric="macos.bluetooth.connected_headphones:$headphones_count"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
