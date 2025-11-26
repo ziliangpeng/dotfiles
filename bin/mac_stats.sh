@@ -331,3 +331,55 @@ if [ -f /tmp/keystroke_count.txt ]; then
         printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
     fi
 fi
+
+# Mouse clicks counter
+# Reads the total mouse clicks from the mouse_tracker daemon
+if [ -f /tmp/mouse_clicks.txt ]; then
+    mouse_clicks=$(cat /tmp/mouse_clicks.txt)
+    if [ -n "$mouse_clicks" ]; then
+        metric="macos.mouse.clicks_total:$mouse_clicks"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Mouse left clicks
+if [ -f /tmp/mouse_left_clicks.txt ]; then
+    left_clicks=$(cat /tmp/mouse_left_clicks.txt)
+    if [ -n "$left_clicks" ]; then
+        metric="macos.mouse.left_clicks:$left_clicks"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Mouse right clicks
+if [ -f /tmp/mouse_right_clicks.txt ]; then
+    right_clicks=$(cat /tmp/mouse_right_clicks.txt)
+    if [ -n "$right_clicks" ]; then
+        metric="macos.mouse.right_clicks:$right_clicks"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Mouse other clicks (middle button, etc)
+if [ -f /tmp/mouse_other_clicks.txt ]; then
+    other_clicks=$(cat /tmp/mouse_other_clicks.txt)
+    if [ -n "$other_clicks" ]; then
+        metric="macos.mouse.other_clicks:$other_clicks"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Mouse distance traveled (pixels)
+# Reads the total distance from the mouse_tracker daemon
+if [ -f /tmp/mouse_distance.txt ]; then
+    mouse_distance=$(cat /tmp/mouse_distance.txt)
+    if [ -n "$mouse_distance" ]; then
+        metric="macos.mouse.distance_pixels:$mouse_distance"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
