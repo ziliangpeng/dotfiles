@@ -1,24 +1,23 @@
 #!/bin/bash
 
-# Source local zsh configuration for environment variables
-if [ -f /Users/victor.peng/dotfiles/zsh/local.zsh ]; then
-    source /Users/victor.peng/dotfiles/zsh/local.zsh
-fi
-
 PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 HOST=$(hostname -s)
 
+# Get location for weather metrics tagging
+weather_city_raw=$(curl -s --max-time 10 "wttr.in/?format=%l" 2>/dev/null)
+weather_city_tag=$(echo "$weather_city_raw" | tr 'A-Z' 'a-z' | tr ' ' '_' | tr -cd '[:alnum:]_')
+
 # Get temperature in Celsius
-temp_raw=$(curl -s "wttr.in/?format=%t&m" 2>/dev/null)
+temp_raw=$(curl -s --max-time 10 "wttr.in/?format=%t&m" 2>/dev/null)
 temp=$(echo "$temp_raw" | tr -d '+°C' | xargs)
 if [ -n "$temp" ] && [ "$temp" != "" ]; then
     metric="macos.geo.temperature_celsius:$temp"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s,city:%s\n" "$metric" "$HOST" "$weather_city_tag" | nc -u -w1 localhost 8125
 fi
 
 # Get humidity
-humidity_raw=$(curl -s "wttr.in/?format=%h" 2>/dev/null)
+humidity_raw=$(curl -s --max-time 10 "wttr.in/?format=%h" 2>/dev/null)
 humidity=$(echo "$humidity_raw" | tr -d '%' | xargs)
 if [ -n "$humidity" ] && [ "$humidity" != "" ]; then
     metric="macos.geo.humidity:$humidity"
@@ -27,7 +26,7 @@ if [ -n "$humidity" ] && [ "$humidity" != "" ]; then
 fi
 
 # Get wind speed (in mph)
-wind_raw=$(curl -s "wttr.in/?format=%w" 2>/dev/null)
+wind_raw=$(curl -s --max-time 10 "wttr.in/?format=%w" 2>/dev/null)
 # Extract just the number from something like "←2mph" or "→15mph"
 wind=$(echo "$wind_raw" | grep -o '[0-9]\+' | head -1)
 if [ -n "$wind" ] && [ "$wind" != "" ]; then
@@ -37,7 +36,7 @@ if [ -n "$wind" ] && [ "$wind" != "" ]; then
 fi
 
 # Get weather condition
-condition_raw=$(curl -s "wttr.in/?format=%C" 2>/dev/null)
+condition_raw=$(curl -s --max-time 10 "wttr.in/?format=%C" 2>/dev/null)
 if [ -n "$condition_raw" ] && [ "$condition_raw" != "" ]; then
     # Sanitize for tag (lowercase, replace spaces with underscores)
     condition_tag=$(echo "$condition_raw" | tr 'A-Z' 'a-z' | tr ' ' '_')
@@ -47,7 +46,7 @@ if [ -n "$condition_raw" ] && [ "$condition_raw" != "" ]; then
 fi
 
 # Get precipitation
-precip_raw=$(curl -s "wttr.in/?format=%p" 2>/dev/null)
+precip_raw=$(curl -s --max-time 10 "wttr.in/?format=%p" 2>/dev/null)
 precip=$(echo "$precip_raw" | tr -d 'mm' | xargs)
 if [ -n "$precip" ] && [ "$precip" != "" ]; then
     metric="macos.geo.precipitation:$precip"
@@ -56,7 +55,7 @@ if [ -n "$precip" ] && [ "$precip" != "" ]; then
 fi
 
 # Get UV index
-uv=$(curl -s "wttr.in/?format=%u" 2>/dev/null | xargs)
+uv=$(curl -s --max-time 10 "wttr.in/?format=%u" 2>/dev/null | xargs)
 if [ -n "$uv" ] && [ "$uv" != "" ]; then
     metric="macos.geo.uv_index:$uv"
     echo "$metric"
@@ -64,7 +63,7 @@ if [ -n "$uv" ] && [ "$uv" != "" ]; then
 fi
 
 # Get moon phase (0-29 day cycle)
-moon=$(curl -s "wttr.in/?format=%M" 2>/dev/null | xargs)
+moon=$(curl -s --max-time 10 "wttr.in/?format=%M" 2>/dev/null | xargs)
 if [ -n "$moon" ] && [ "$moon" != "" ]; then
     metric="macos.geo.moon_phase:$moon"
     echo "$metric"
@@ -72,8 +71,8 @@ if [ -n "$moon" ] && [ "$moon" != "" ]; then
 fi
 
 # Get sunrise and sunset times
-sunrise_raw=$(curl -s "wttr.in/?format=%S" 2>/dev/null)
-sunset_raw=$(curl -s "wttr.in/?format=%s" 2>/dev/null)
+sunrise_raw=$(curl -s --max-time 10 "wttr.in/?format=%S" 2>/dev/null)
+sunset_raw=$(curl -s --max-time 10 "wttr.in/?format=%s" 2>/dev/null)
 
 # Convert HH:MM:SS to decimal hours for easier graphing
 if [ -n "$sunrise_raw" ] && [ "$sunrise_raw" != "" ]; then
@@ -101,20 +100,30 @@ fi
 # Air Quality Metrics (via WAQI API)
 # Get location-based air quality data
 # Expects WAQI_TOKEN environment variable to be set
+#
+# Setup: Add WAQI_TOKEN to your LaunchAgent plist:
+# <key>EnvironmentVariables</key>
+# <dict>
+#     <key>WAQI_TOKEN</key>
+#     <string>your_token_here</string>
+# </dict>
 if [ -z "$WAQI_TOKEN" ]; then
     echo "Error: WAQI_TOKEN environment variable is not set" >&2
     exit 1
 fi
 
-aqi_data=$(curl -s "https://api.waqi.info/feed/here/?token=${WAQI_TOKEN}" 2>/dev/null)
+aqi_data=$(curl -s --max-time 10 "https://api.waqi.info/feed/here/?token=${WAQI_TOKEN}" 2>/dev/null)
 
 if [ -n "$aqi_data" ] && [ "$aqi_data" != "" ]; then
+    # Extract city name for tagging (from city.name field)
+    city_name=$(echo "$aqi_data" | grep -o '"city":{[^}]*}' | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
+    city_tag=$(echo "$city_name" | tr 'A-Z' 'a-z' | tr ' ' '_' | tr -cd '[:alnum:]_')
     # Parse AQI value
     aqi=$(echo "$aqi_data" | grep -o '"aqi":[0-9]\+' | cut -d':' -f2)
     if [ -n "$aqi" ] && [ "$aqi" != "" ]; then
         metric="macos.geo.aqi:$aqi"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s,city:%s\n" "$metric" "$HOST" "$city_tag" | nc -u -w1 localhost 8125
     fi
 
     # Parse PM2.5
