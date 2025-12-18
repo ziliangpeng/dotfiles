@@ -1,5 +1,8 @@
 export PATH="$PATH:$HOME/dotfiles/bin/macos"
 
+# Add Rust cargo bin to PATH if it exists
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+
 # Bluetooth/WiFi On/Off
 alias boff='blueutil off'
 alias bon='blueutil on'
