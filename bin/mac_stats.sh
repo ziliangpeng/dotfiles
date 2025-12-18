@@ -28,6 +28,11 @@ metric="macos.ssd.power_on_hours:$(smartctl -a disk0 | grep 'Power On Hours' | a
 echo "$metric"
 printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
 
+# SSD power cycles (number of power on/off events)
+metric="macos.ssd.power_cycles:$(smartctl -a disk0 | grep 'Power Cycles:' | awk '{print $3}' | tr -d ',')"
+echo "$metric"
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+
 # Disk usage bytes (user data volume)
 metric="macos.disk.usage_bytes:$(df -k /System/Volumes/Data | tail -1 | awk '{print $3 * 1024}')"
 echo "$metric"
@@ -379,6 +384,82 @@ if [ -f /tmp/mouse_distance.txt ]; then
     mouse_distance=$(cat /tmp/mouse_distance.txt)
     if [ -n "$mouse_distance" ]; then
         metric="macos.mouse.distance_pixels:$mouse_distance"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# tmux metrics (if tmux is available and running)
+if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
+    # tmux sessions count
+    session_count=$(tmux list-sessions 2>/dev/null | wc -l | tr -d ' ')
+    if [ -n "$session_count" ]; then
+        metric="macos.tmux.sessions_total:$session_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # tmux windows count
+    window_count=$(tmux list-windows -a 2>/dev/null | wc -l | tr -d ' ')
+    if [ -n "$window_count" ]; then
+        metric="macos.tmux.windows_total:$window_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # tmux panes count
+    pane_count=$(tmux list-panes -a 2>/dev/null | wc -l | tr -d ' ')
+    if [ -n "$pane_count" ]; then
+        metric="macos.tmux.panes_total:$pane_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# iTerm2 metrics (only if running)
+if pgrep -q "iTerm"; then
+    # iTerm tab count
+    tab_count=$(osascript -e 'tell application "iTerm" to count every tab of every window' 2>/dev/null)
+    if [ -n "$tab_count" ]; then
+        metric="macos.iterm.tab_count:$tab_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # iTerm window count
+    window_count=$(osascript -e 'tell application "iTerm" to count windows' 2>/dev/null)
+    if [ -n "$window_count" ]; then
+        metric="macos.iterm.window_count:$window_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Terminal.app metrics (only if running)
+if pgrep -q "Terminal"; then
+    # Terminal tab count
+    tab_count=$(osascript -e 'tell application "Terminal" to count every tab of every window' 2>/dev/null)
+    if [ -n "$tab_count" ]; then
+        metric="macos.terminal.tab_count:$tab_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+
+    # Terminal window count
+    window_count=$(osascript -e 'tell application "Terminal" to count windows' 2>/dev/null)
+    if [ -n "$window_count" ]; then
+        metric="macos.terminal.window_count:$window_count"
+        echo "$metric"
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    fi
+fi
+
+# Ghostty metrics (only if running)
+if pgrep -q "ghostty"; then
+    # Ghostty window count (tab count not available via API yet)
+    window_count=$(osascript -e 'tell application "System Events" to tell process "ghostty" to count windows' 2>/dev/null)
+    if [ -n "$window_count" ]; then
+        metric="macos.ghostty.window_count:$window_count"
         echo "$metric"
         printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
     fi
