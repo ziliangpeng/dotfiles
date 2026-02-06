@@ -272,6 +272,18 @@ Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { _ in
     writeDistance(distancePtr.pointee, to: distanceFile)
 }
 
+// Self-restart every 5 minutes to recover from silently disabled event taps.
+// launchd KeepAlive restarts the process immediately (~40ms). Counts persist to disk.
+Timer.scheduledTimer(withTimeInterval: 300.0, repeats: false) { _ in
+    writeCount(clickCountPtr.pointee, to: clicksFile)
+    writeCount(leftClickCountPtr.pointee, to: leftClicksFile)
+    writeCount(rightClickCountPtr.pointee, to: rightClicksFile)
+    writeCount(otherClickCountPtr.pointee, to: otherClicksFile)
+    writeDistance(distancePtr.pointee, to: distanceFile)
+    print("Exiting for scheduled restart")
+    exit(0)
+}
+
 // Handle termination gracefully
 signal(SIGINT) { _ in
     writeCount(clickCountPtr.pointee, to: clicksFile)
