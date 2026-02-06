@@ -6,70 +6,70 @@ HOST=$(hostname -s)
 # SSD lifetime bytes written
 metric="macos.ssd.bytes_written:$(smartctl -a disk0 | grep 'Data Units Written' | awk '{print $4}' | tr -d ',' | awk '{print $1 * 512000}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # SSD lifetime bytes read
 metric="macos.ssd.bytes_read:$(smartctl -a disk0 | grep 'Data Units Read' | awk '{print $4}' | tr -d ',' | awk '{print $1 * 512000}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # SSD percentage used (wear level)
 metric="macos.ssd.percentage_used:$(smartctl -a disk0 | grep 'Percentage Used' | awk '{print $3}' | tr -d '%')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # SSD temperature
 metric="macos.ssd.temperature:$(smartctl -a disk0 | grep 'Temperature:' | awk '{print $2}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # SSD power on hours
 metric="macos.ssd.power_on_hours:$(smartctl -a disk0 | grep 'Power On Hours' | awk '{print $4}' | tr -d ',')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # SSD power cycles (number of power on/off events)
 metric="macos.ssd.power_cycles:$(smartctl -a disk0 | grep 'Power Cycles:' | awk '{print $3}' | tr -d ',')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Disk usage bytes (user data volume)
 metric="macos.disk.usage_bytes:$(df -k /System/Volumes/Data | tail -1 | awk '{print $3 * 1024}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Disk available bytes
 metric="macos.disk.available_bytes:$(df -k /System/Volumes/Data | tail -1 | awk '{print $4 * 1024}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Disk total capacity
 metric="macos.disk.total_bytes:$(df -k /System/Volumes/Data | tail -1 | awk '{print $2 * 1024}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Disk usage percentage
 metric="macos.disk.usage_percent:$(df -k /System/Volumes/Data | tail -1 | awk '{print $5}' | tr -d '%')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # CPU load averages
 metric="macos.cpu.load_1m:$(sysctl -n vm.loadavg | awk '{print $2}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 metric="macos.cpu.load_5m:$(sysctl -n vm.loadavg | awk '{print $3}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 metric="macos.cpu.load_15m:$(sysctl -n vm.loadavg | awk '{print $4}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Memory total bytes
 metric="macos.memory.total_bytes:$(sysctl -n hw.memsize)"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Memory statistics from vm_stat
 page_size=$(sysctl -n hw.pagesize)
@@ -78,62 +78,62 @@ vm_stat_output=$(vm_stat)
 # Memory free bytes
 metric="macos.memory.free_bytes:$(echo "$vm_stat_output" | grep 'Pages free' | awk '{print $3}' | tr -d '.' | awk -v ps=$page_size '{print $1 * ps}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Memory active bytes
 metric="macos.memory.active_bytes:$(echo "$vm_stat_output" | grep 'Pages active' | awk '{print $3}' | tr -d '.' | awk -v ps=$page_size '{print $1 * ps}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Memory wired bytes
 metric="macos.memory.wired_bytes:$(echo "$vm_stat_output" | grep 'Pages wired down' | awk '{print $4}' | tr -d '.' | awk -v ps=$page_size '{print $1 * ps}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Memory compressed bytes
 metric="macos.memory.compressed_bytes:$(echo "$vm_stat_output" | grep 'Pages occupied by compressor' | awk '{print $5}' | tr -d '.' | awk -v ps=$page_size '{print $1 * ps}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Swap used bytes
 metric="macos.swap.used_bytes:$(sysctl -n vm.swapusage | awk '{print $7}' | tr -d 'M' | awk '{print $1 * 1048576}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Battery percentage
 metric="macos.battery.percentage:$(pmset -g batt | grep -Eo '[0-9]+%' | head -1 | tr -d '%')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Battery cycle count
 metric="macos.battery.cycle_count:$(system_profiler SPPowerDataType | grep 'Cycle Count' | awk '{print $3}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Battery health percent
 metric="macos.battery.health_percent:$(system_profiler SPPowerDataType | grep 'Maximum Capacity' | awk '{print $3}' | tr -d '%')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Battery is charging (1 if charging, 0 if not)
 metric="macos.battery.is_charging:$(pmset -g batt | grep -q 'AC Power' && echo 1 || echo 0)"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Network total bytes received (sum of all interfaces)
 metric="macos.network.bytes_in:$(netstat -ib | awk 'NR>1 && $7 ~ /^[0-9]+$/ {sum+=$7} END {print sum}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Network total bytes sent (sum of all interfaces)
 metric="macos.network.bytes_out:$(netstat -ib | awk 'NR>1 && $10 ~ /^[0-9]+$/ {sum+=$10} END {print sum}')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # System uptime in seconds
 metric="macos.system.uptime_seconds:$(sysctl -n kern.boottime | awk '{print $4}' | tr -d ',' | xargs -I {} bash -c 'echo $(($(date +%s) - {}))')"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # WiFi stats - Get WiFi information for connected network
 wifi_info=$(system_profiler SPAirPortDataType 2>/dev/null | awk '/Status: Connected/,/Other Local Wi-Fi Networks:/' | grep -v "Other Local Wi-Fi Networks:")
@@ -148,14 +148,14 @@ if [ -n "$wifi_info" ]; then
     if [ -n "$signal" ]; then
         metric="macos.wifi.signal_strength:$signal"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # WiFi noise level
     if [ -n "$noise" ]; then
         metric="macos.wifi.noise_level:$noise"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # WiFi transmit rate (Mbps)
@@ -163,7 +163,7 @@ if [ -n "$wifi_info" ]; then
     if [ -n "$transmit_rate" ]; then
         metric="macos.wifi.transmit_rate:$transmit_rate"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # WiFi channel number
@@ -171,7 +171,7 @@ if [ -n "$wifi_info" ]; then
     if [ -n "$channel" ]; then
         metric="macos.wifi.channel:$channel"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -182,14 +182,14 @@ bt_info=$(system_profiler SPBluetoothDataType 2>/dev/null)
 connected_count=$(echo "$bt_info" | awk '/Connected:/,/Not Connected:/ {if (/Minor Type:/) count++} END {print count+0}')
 metric="macos.bluetooth.connected_count:$connected_count"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Bluetooth paired device count
 paired_count=$(echo "$bt_info" | grep -c "Address:")
 paired_count=$((paired_count - 1))
 metric="macos.bluetooth.paired_count:$paired_count"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # PPP3 AirPods battery levels
 ppp3_section=$(echo "$bt_info" | awk '/PPP3:/,/Services:/')
@@ -200,19 +200,19 @@ ppp3_case=$(echo "$ppp3_section" | grep "Case Battery Level:" | tail -1 | awk '{
 if [ -n "$ppp3_left" ]; then
     metric="macos.bluetooth.ppp3_battery_left:$ppp3_left"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 if [ -n "$ppp3_right" ]; then
     metric="macos.bluetooth.ppp3_battery_right:$ppp3_right"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 if [ -n "$ppp3_case" ]; then
     metric="macos.bluetooth.ppp3_battery_case:$ppp3_case"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 # PPP2 AirPods battery levels
@@ -224,19 +224,19 @@ ppp2_case=$(echo "$ppp2_section" | grep "Case Battery Level:" | awk '{print $4}'
 if [ -n "$ppp2_left" ]; then
     metric="macos.bluetooth.ppp2_battery_left:$ppp2_left"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 if [ -n "$ppp2_right" ]; then
     metric="macos.bluetooth.ppp2_battery_right:$ppp2_right"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 if [ -n "$ppp2_case" ]; then
     metric="macos.bluetooth.ppp2_battery_case:$ppp2_case"
     echo "$metric"
-    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+    printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 fi
 
 # Connected device types
@@ -245,17 +245,17 @@ connected_devices=$(echo "$bt_info" | awk '/Connected:/,/Not Connected:/ {print}
 mice_count=$(echo "$connected_devices" | grep -c "Minor Type: Mouse")
 metric="macos.bluetooth.connected_mice:$mice_count"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 keyboards_count=$(echo "$connected_devices" | grep -c "Minor Type: Keyboard")
 metric="macos.bluetooth.connected_keyboards:$keyboards_count"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 headphones_count=$(echo "$connected_devices" | grep -c "Minor Type: Headphones")
 metric="macos.bluetooth.connected_headphones:$headphones_count"
 echo "$metric"
-printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
 
 # Comet browser metrics (only if running)
 if pgrep -q "Comet"; then
@@ -264,7 +264,7 @@ if pgrep -q "Comet"; then
     if [ -n "$tab_count" ]; then
         metric="macos.comet.tab_count:$tab_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # Comet window count
@@ -272,7 +272,7 @@ if pgrep -q "Comet"; then
     if [ -n "$window_count" ]; then
         metric="macos.comet.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -283,7 +283,7 @@ if pgrep -q "ChatGPT Atlas"; then
     if [ -n "$tab_count" ]; then
         metric="macos.chatgpt_atlas.tab_count:$tab_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # ChatGPT Atlas window count
@@ -291,7 +291,7 @@ if pgrep -q "ChatGPT Atlas"; then
     if [ -n "$window_count" ]; then
         metric="macos.chatgpt_atlas.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -302,7 +302,7 @@ if pgrep -q "Google Chrome"; then
     if [ -n "$tab_count" ]; then
         metric="macos.chrome.tab_count:$tab_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # Chrome window count
@@ -310,7 +310,7 @@ if pgrep -q "Google Chrome"; then
     if [ -n "$window_count" ]; then
         metric="macos.chrome.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -323,7 +323,7 @@ if [ -n "$active_app" ]; then
     app_tag=$(echo "$active_app" | tr ' :/' '_')
     metric="macos.app.active:1"
     echo "$metric (app:$app_tag)"
-    printf "%s|c|#host:%s,app:%s\n" "$metric" "$HOST" "$app_tag" | nc -u -w1 localhost 8125
+    printf "%s|c|#host:%s,app:%s\n" "$metric" "$HOST" "$app_tag" | nc -u -w1 127.0.0.1 8125
 fi
 
 # Keystroke counter
@@ -333,7 +333,7 @@ if [ -f /tmp/keystroke_count.txt ]; then
     if [ -n "$keystroke_count" ]; then
         metric="macos.keystrokes.total:$keystroke_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -344,7 +344,7 @@ if [ -f /tmp/mouse_clicks.txt ]; then
     if [ -n "$mouse_clicks" ]; then
         metric="macos.mouse.clicks_total:$mouse_clicks"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -354,7 +354,7 @@ if [ -f /tmp/mouse_left_clicks.txt ]; then
     if [ -n "$left_clicks" ]; then
         metric="macos.mouse.left_clicks:$left_clicks"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -364,7 +364,7 @@ if [ -f /tmp/mouse_right_clicks.txt ]; then
     if [ -n "$right_clicks" ]; then
         metric="macos.mouse.right_clicks:$right_clicks"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -374,7 +374,7 @@ if [ -f /tmp/mouse_other_clicks.txt ]; then
     if [ -n "$other_clicks" ]; then
         metric="macos.mouse.other_clicks:$other_clicks"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -385,7 +385,7 @@ if [ -f /tmp/mouse_distance.txt ]; then
     if [ -n "$mouse_distance" ]; then
         metric="macos.mouse.distance_pixels:$mouse_distance"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -396,7 +396,7 @@ if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
     if [ -n "$session_count" ]; then
         metric="macos.tmux.sessions_total:$session_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # tmux windows count
@@ -404,7 +404,7 @@ if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
     if [ -n "$window_count" ]; then
         metric="macos.tmux.windows_total:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # tmux panes count
@@ -412,7 +412,7 @@ if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
     if [ -n "$pane_count" ]; then
         metric="macos.tmux.panes_total:$pane_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -423,7 +423,7 @@ if pgrep -q "iTerm"; then
     if [ -n "$tab_count" ]; then
         metric="macos.iterm.tab_count:$tab_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # iTerm window count
@@ -431,7 +431,7 @@ if pgrep -q "iTerm"; then
     if [ -n "$window_count" ]; then
         metric="macos.iterm.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -442,7 +442,7 @@ if pgrep -q "Terminal"; then
     if [ -n "$tab_count" ]; then
         metric="macos.terminal.tab_count:$tab_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 
     # Terminal window count
@@ -450,7 +450,7 @@ if pgrep -q "Terminal"; then
     if [ -n "$window_count" ]; then
         metric="macos.terminal.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
 
@@ -461,6 +461,6 @@ if pgrep -q "ghostty"; then
     if [ -n "$window_count" ]; then
         metric="macos.ghostty.window_count:$window_count"
         echo "$metric"
-        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 localhost 8125
+        printf "%s|g|#host:%s\n" "$metric" "$HOST" | nc -u -w1 127.0.0.1 8125
     fi
 fi
