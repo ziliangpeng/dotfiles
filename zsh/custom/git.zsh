@@ -26,11 +26,26 @@ alias gdbase="git diff `git merge-base HEAD develop`"
 alias sync-master='git pull --rebase origin master'
 alias sync-develop='git pull --rebase origin develop'
 alias sync-main='git pull --rebase origin main'
-alias gmas='gco master'
+alias gmain='gco main'
 alias gdev='gco develop'
 alias gagc='ga .;gc -m'
 alias gsc='git sparse-checkout'
 
 func gnew() {
   gco -b v--$1
+}
+
+func gmainsha() {
+  # Check for uncommitted changes
+  if [[ -n $(git status --porcelain) ]]; then
+    echo "Error: You have uncommitted changes. Please commit or stash them first."
+    return 1
+  fi
+  
+  # Fetch origin main
+  git fetch origin main
+  
+  # Get the latest SHA from origin/main and checkout
+  local latest_sha=$(git rev-parse origin/main)
+  git checkout $latest_sha
 }

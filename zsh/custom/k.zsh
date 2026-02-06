@@ -38,6 +38,7 @@ func kde() { k get deploy | grep "$1" }
 func kjobs() { k get jobs --sort-by=.status.startTime | grep "$1" }
 func kgr() { kc get-contexts | grep "$1" }
 func kssh() { k exec -it $@ -- /bin/bash }
+func ksshsh() { k exec -it $@ -- /bin/sh }
 func ks() { k scale --replicas=$1 jobs/$2 }
 
 # Tail logs from all pods in a deployment (vllm-container)
