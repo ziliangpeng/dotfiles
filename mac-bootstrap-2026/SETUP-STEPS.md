@@ -144,6 +144,11 @@ Proposed scripts:
 
 ## 8) Manico latency tuning (Option-key trigger delay)
 
+### Bootstrap target
+
+- Set Manico trigger delay to **0 seconds** (`time-delay-before-activation = 0`).
+- Apply with **quit → set → relaunch** so the value takes effect consistently.
+
 ### Config key
 
 Manico stores trigger delay in preferences key:
@@ -194,6 +199,10 @@ defaults read im.manico.Manico "time-delay-before-activation"
 
 
 ## 9) Ensure Manico starts at login
+
+### Bootstrap target
+
+- Manico **must auto-start at login** on a fresh Mac bootstrap.
 
 ### Add Manico to macOS Login Items (scriptable)
 
