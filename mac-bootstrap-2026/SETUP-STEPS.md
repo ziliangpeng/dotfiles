@@ -382,3 +382,41 @@ Expected:
 Expected mapping:
 - `Src 30064771129` (Caps Lock) -> `Dst 30064771300` (Left Control)
 
+
+## 14) Hide menu bar icons for Rectangle and Manico
+
+### Goal
+
+- Keep Rectangle and Manico running, but hide their menu bar/status icons.
+
+### Apply
+
+```bash
+# Rectangle
+defaults write com.knollsoft.Rectangle menuBarIconHidden -bool true
+
+# Manico (both key variants for compatibility)
+defaults write im.manico.Manico "show-status-icon" -bool false
+defaults write im.manico.Manico ShowStatusIcon -bool false
+
+# Relaunch apps
+osascript -e 'tell application "Rectangle" to quit' || true
+osascript -e 'tell application "Manico" to quit' || true
+sleep 1
+open -a Rectangle
+open -a Manico
+```
+
+### Verify
+
+```bash
+defaults read com.knollsoft.Rectangle menuBarIconHidden
+defaults read im.manico.Manico "show-status-icon"
+defaults read im.manico.Manico ShowStatusIcon
+```
+
+Expected:
+- Rectangle `menuBarIconHidden = 1`
+- Manico `show-status-icon = 0`
+- Manico `ShowStatusIcon = 0`
+
