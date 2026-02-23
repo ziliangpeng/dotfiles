@@ -141,3 +141,54 @@ Proposed scripts:
 ## Change Log
 
 - Initial version created on 2026-02-22.
+
+## 8) Manico latency tuning (Option-key trigger delay)
+
+### Config key
+
+Manico stores trigger delay in preferences key:
+
+- Domain: `im.manico.Manico`
+- Key: `time-delay-before-activation`
+- Unit: seconds (float)
+
+### Check current value
+
+```bash
+defaults read im.manico.Manico "time-delay-before-activation" 2>/dev/null || echo "KEY_NOT_SET"
+```
+
+### Set delay value (examples)
+
+```bash
+# Instant
+defaults write im.manico.Manico "time-delay-before-activation" -float 0
+
+# Very fast
+defaults write im.manico.Manico "time-delay-before-activation" -float 0.05
+
+# Balanced
+defaults write im.manico.Manico "time-delay-before-activation" -float 0.15
+```
+
+### Apply reliably (quit → set → relaunch)
+
+```bash
+osascript -e 'tell application "Manico" to quit' || true
+sleep 1
+defaults write im.manico.Manico "time-delay-before-activation" -float 0
+open -a Manico
+```
+
+### Verify after relaunch
+
+```bash
+defaults read im.manico.Manico "time-delay-before-activation"
+```
+
+### Recommended values
+
+- `0` = instant
+- `0.05` = very fast (often a sweet spot)
+- `0.1-0.2` = fewer accidental popups
+
