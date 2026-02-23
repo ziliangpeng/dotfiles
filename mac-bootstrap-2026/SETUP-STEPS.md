@@ -192,3 +192,28 @@ defaults read im.manico.Manico "time-delay-before-activation"
 - `0.05` = very fast (often a sweet spot)
 - `0.1-0.2` = fewer accidental popups
 
+
+## 9) Ensure Manico starts at login
+
+### Add Manico to macOS Login Items (scriptable)
+
+```bash
+osascript <<'APPLESCRIPT'
+tell application "System Events"
+  if not (exists login item "Manico") then
+    make login item at end with properties {name:"Manico", path:"/Applications/Manico.app", hidden:false}
+  end if
+end tell
+APPLESCRIPT
+```
+
+### Verify
+
+```bash
+osascript <<'APPLESCRIPT'
+tell application "System Events"
+  get the properties of every login item whose name is "Manico"
+end tell
+APPLESCRIPT
+```
+
