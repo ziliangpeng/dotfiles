@@ -310,3 +310,48 @@ defaults read com.knollsoft.Rectangle maximize
 - If `Ctrl + F` conflicts inside specific apps, remap maximize to `Ctrl + Option + F`.
 - Keep one canonical window manager active to avoid keybinding conflicts.
 
+
+## 12) Trackpad productivity defaults (tap-to-click + tap-drag)
+
+### Goal
+
+- Enable **tap to click**
+- Enable **double-tap and drag** (dragging), without three-finger drag
+
+### Apply via CLI
+
+```bash
+# Tap to click (internal + bluetooth trackpad + global)
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# Double-tap dragging behavior
+defaults write com.apple.AppleMultitouchTrackpad Dragging -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool true
+defaults write com.apple.AppleMultitouchTrackpad DragLock -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -bool false
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool false
+
+# Reload preferences
+killall cfprefsd || true
+killall SystemUIServer || true
+```
+
+### Verify
+
+```bash
+defaults read com.apple.AppleMultitouchTrackpad | egrep "Clicking|Dragging|DragLock|TrackpadThreeFingerDrag"
+defaults read com.apple.driver.AppleBluetoothMultitouch.trackpad | egrep "Clicking|Dragging|DragLock|TrackpadThreeFingerDrag"
+defaults read NSGlobalDomain com.apple.mouse.tapBehavior
+```
+
+Expected:
+- `Clicking = 1`
+- `Dragging = 1`
+- `DragLock = 0`
+- `TrackpadThreeFingerDrag = 0`
+- `com.apple.mouse.tapBehavior = 1`
+
