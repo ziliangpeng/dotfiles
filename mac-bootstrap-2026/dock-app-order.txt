@@ -1,0 +1,6 @@
+Dock app order (left to right)
+1. Finder
+2. Google Chrome
+3. iTerm
+4. Comet
+5. Cursor
