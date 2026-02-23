@@ -217,3 +217,18 @@ end tell
 APPLESCRIPT
 ```
 
+
+## 10) Manico app order (current canonical order)
+
+Current Manico action order from local database (`ZACTION` sorted by `ZSORTWEIGHT`):
+
+- Index 0: Finder
+- Index 1: Google Chrome
+- Index 2: iTerm
+- Index 3: Comet
+- Index 4: Cursor
+
+Reference file:
+
+- `mac-bootstrap-2026/manico-app-order.txt`
+

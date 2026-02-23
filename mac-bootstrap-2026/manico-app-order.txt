@@ -1,0 +1,6 @@
+Manico app order (current)
+Index 0: Finder
+Index 1: Google Chrome
+Index 2: iTerm
+Index 3: Comet
+Index 4: Cursor
