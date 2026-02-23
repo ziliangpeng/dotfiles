@@ -241,3 +241,72 @@ Reference file:
 
 - `mac-bootstrap-2026/manico-app-order.txt`
 
+
+## 11) Rectangle window manager setup (replace Spectacle workflow)
+
+### Goal
+
+Use Rectangle as the primary window manager and disable macOS tiling conflicts.
+
+### Install Rectangle
+
+```bash
+brew install --cask rectangle
+open -a Rectangle
+```
+
+### Start Rectangle at login
+
+```bash
+osascript <<'APPLESCRIPT'
+tell application "System Events"
+  if not (exists login item "Rectangle") then
+    make login item at end with properties {name:"Rectangle", path:"/Applications/Rectangle.app", hidden:false}
+  end if
+end tell
+APPLESCRIPT
+```
+
+### Shortcut profile (custom)
+
+- `Ctrl + F` → Maximize
+- `Option + Command + Left` → Left half
+- `Option + Command + Right` → Right half
+- `Ctrl + Option + Command + Left` → Previous display
+- `Ctrl + Option + Command + Right` → Next display
+
+### Apply shortcuts via Terminal (idempotent)
+
+```bash
+# Left / Right half
+defaults write com.knollsoft.Rectangle leftHalf -dict-add keyCode -float 123 modifierFlags -float 1572864
+defaults write com.knollsoft.Rectangle rightHalf -dict-add keyCode -float 124 modifierFlags -float 1572864
+
+# Move window between displays
+defaults write com.knollsoft.Rectangle previousDisplay -dict-add keyCode -float 123 modifierFlags -float 1835008
+defaults write com.knollsoft.Rectangle nextDisplay -dict-add keyCode -float 124 modifierFlags -float 1835008
+
+# Maximize
+defaults write com.knollsoft.Rectangle maximize -dict-add keyCode -float 3 modifierFlags -float 262144
+
+# Reload app
+osascript -e 'tell application "Rectangle" to quit' || true
+sleep 1
+open -a Rectangle
+```
+
+### Verify mappings
+
+```bash
+defaults read com.knollsoft.Rectangle leftHalf
+defaults read com.knollsoft.Rectangle rightHalf
+defaults read com.knollsoft.Rectangle previousDisplay
+defaults read com.knollsoft.Rectangle nextDisplay
+defaults read com.knollsoft.Rectangle maximize
+```
+
+### Notes
+
+- If `Ctrl + F` conflicts inside specific apps, remap maximize to `Ctrl + Option + F`.
+- Keep one canonical window manager active to avoid keybinding conflicts.
+
