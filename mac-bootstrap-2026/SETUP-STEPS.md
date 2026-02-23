@@ -355,3 +355,30 @@ Expected:
 - `TrackpadThreeFingerDrag = 0`
 - `com.apple.mouse.tapBehavior = 1`
 
+
+## 13) Keyboard remap: Caps Lock -> Control (built-in keyboard)
+
+### Goal
+
+- Remap `Caps Lock` to `Control` for macOS productivity workflows.
+
+### Apply (persistent + immediate)
+
+```bash
+# Persist remap for current host
+/usr/bin/defaults -currentHost write -g com.apple.keyboard.modifiermapping -array \
+  '<dict><key>HIDKeyboardModifierMappingSrc</key><integer>30064771129</integer><key>HIDKeyboardModifierMappingDst</key><integer>30064771300</integer></dict>'
+
+# Apply live without logout
+/usr/bin/hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":30064771129,"HIDKeyboardModifierMappingDst":30064771300}]}'
+```
+
+### Verify
+
+```bash
+/usr/bin/hidutil property --get "UserKeyMapping"
+```
+
+Expected mapping:
+- `Src 30064771129` (Caps Lock) -> `Dst 30064771300` (Left Control)
+
